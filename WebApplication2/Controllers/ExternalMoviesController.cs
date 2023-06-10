@@ -6,38 +6,54 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
-using WebApplication2.Models;
+using System.Net.Http.Headers;
+using Domain.Entieties;
+using Application.Interfaces;
+using Infrastructure.Repositories;
+using Application.Dto;
 
-namespace WebApplication2.Controllers
+namespace MyMoviesAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class ValuesController : ControllerBase
+    [Route("api/extMovies")]
+    public class ExternalMoviesController : ControllerBase
     {
+        private readonly IMovieService _movieService;
+
+        private string apiUrl = "https://filmy.programdemo.pl/MyMovies"; 
+
+        public ExternalMoviesController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetDataFromExternalApi()
         {
+            
             using HttpClient httpClient = new HttpClient();
-                string apiUrl = "https://filmy.programdemo.pl/MyMovies"; // Adres URL zewnętrznego API
-
+                
             try
             {
                 HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
                 if (response.IsSuccessStatusCode)
-                {
+                {       
                     string responseBody = await response.Content.ReadAsStringAsync();
                     var options = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     };
-                    //var data = JsonSerializer.Deserialize<Dictionary<string, string>>(responseBody);
-                    // Przetwarzanie otrzymanych danych
-                    List<Movie> movies = JsonSerializer.Deserialize<List<Movie>>(responseBody, options);
+                    List<CreateMovieDto> Movies = JsonSerializer.Deserialize<List<CreateMovieDto>>(responseBody, options);
+                    List<MovieDto> AddedMovies = new List<MovieDto>();
 
-
-                    return Ok(movies);
+                    foreach(CreateMovieDto Movie in Movies)
+                    {
+                        var allMovies = _movieService.GetAllPosts();
+                        if(!allMovies.Any(movieDb => movieDb.ExtId == Movie.ExtId))
+                            AddedMovies.Add(_movieService.AddMovie(Movie));
+                    }
+                    return Ok(AddedMovies);
                 }
                 else
                 {
@@ -52,7 +68,7 @@ namespace WebApplication2.Controllers
             }
             }
 
-    }
+    }   
 
 
 
