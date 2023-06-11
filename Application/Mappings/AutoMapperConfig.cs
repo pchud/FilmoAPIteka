@@ -9,7 +9,7 @@ namespace Application.Mappings
         public static IMapper Initialize() => new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Movie, MovieDto>();
-            cfg.CreateMap<CreateMovieDto, Movie>();
+            cfg.CreateMap<CreateLocalMovieDto, Movie>();
             cfg.CreateMap<UpdateMovieDto, Movie>();
         })
         .CreateMapper();

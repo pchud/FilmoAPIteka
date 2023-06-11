@@ -10,17 +10,18 @@ using System.Threading.Tasks;
 
 namespace Application.Dto
 {
-    public class CreateMovieDto : IMap
+    public class CreateLocalMovieDto :  IMap
     {
         public string Title { get; set; }
         public string Director { get; set; }
         public int Year { get; set; }
         public int Rate { get; set; }
-        //public int ExtId { get; set; }
+        //public int Id { get; set; }  
+
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CreateMovieDto, Movie>();
+            profile.CreateMap<CreateLocalMovieDto, Movie>();
         }
     }
 }

@@ -11,7 +11,8 @@ namespace Application.Interfaces
         IEnumerable<MovieDto> GetAllPosts();
         MovieDto GetMovieById(int id);
         MovieDto AddMovie(CreateMovieDto movie);
-        void UpdateMovie(UpdateMovieDto updateMovie);
+        MovieDto AddMovie(CreateExtMovieDto movie);
+        MovieDto UpdateMovie(UpdateMovieDto updateMovie);
         void DeleteMovie(int id);
     }
 }

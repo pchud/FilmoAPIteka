@@ -32,7 +32,7 @@ namespace Application.Services
 
         public MovieDto AddMovie(CreateMovieDto newMovie)
         {
-            if(string.IsNullOrEmpty(newMovie.Title))
+            if (string.IsNullOrEmpty(newMovie.Title))
             {
                 throw new Exception("Post can not have an empty title.");
             }
@@ -41,13 +41,23 @@ namespace Application.Services
             _movieRepository.Add(movie);
             return _mapper.Map<MovieDto>(movie);
         }
+        public MovieDto AddMovie(CreateExtMovieDto newMovie)
+        {
+            if (string.IsNullOrEmpty(newMovie.Title))
+            {
+                throw new Exception("Post can not have an empty title.");
+            }
 
-        public void UpdateMovie(UpdateMovieDto updateMovie)
+            var movie = _mapper.Map<Movie>(newMovie);
+            _movieRepository.Add(movie);
+            return _mapper.Map<MovieDto>(movie);
+        }
+        public MovieDto UpdateMovie(UpdateMovieDto updateMovie)
         {
             var existingMovie = _movieRepository.GetById(updateMovie.Id);
             var movie = _mapper.Map(updateMovie, existingMovie);
             _movieRepository.Update(movie);
-
+            return _mapper.Map<MovieDto>(movie);
         }
 
         public void DeleteMovie(int id)
@@ -55,5 +65,6 @@ namespace Application.Services
             var movie= _movieRepository.GetById(id);
             _movieRepository.Delete(movie);
         }
+
     }
 }

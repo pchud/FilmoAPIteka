@@ -44,16 +44,16 @@ namespace MyMoviesAPI.Controllers
                     {
                         PropertyNameCaseInsensitive = true
                     };
-                    List<CreateMovieDto> Movies = JsonSerializer.Deserialize<List<CreateMovieDto>>(responseBody, options);
+                    List<CreateExtMovieDto> Movies = JsonSerializer.Deserialize<List<CreateExtMovieDto>>(responseBody, options);
                     List<MovieDto> AddedMovies = new List<MovieDto>();
 
-                    foreach(CreateMovieDto Movie in Movies)
+                    foreach(CreateExtMovieDto Movie in Movies)
                     {
                         var allMovies = _movieService.GetAllPosts();
                         if(!allMovies.Any(movieDb => movieDb.ExtId == Movie.ExtId))
                             AddedMovies.Add(_movieService.AddMovie(Movie));
                     }
-                    return Ok(AddedMovies);
+                        return Ok(AddedMovies);
                 }
                 else
                 {

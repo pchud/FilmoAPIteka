@@ -1,5 +1,6 @@
 ﻿using Application.Dto;
 using Application.Interfaces;
+using Domain.Entieties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -47,9 +48,9 @@ namespace MyMoviesAPI.Controllers
         [SwaggerOperation(Summary = "Update a existing movie")]
         [HttpPut]
         public IActionResult Update(UpdateMovieDto updateMovie)
-        {
-            _movieService.UpdateMovie(updateMovie);
-            return NoContent();
+            {
+            var movie = _movieService.UpdateMovie(updateMovie);
+            return Ok(movie);
         }
 
         [SwaggerOperation(Summary = "Delete a existing movie")]
