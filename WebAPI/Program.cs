@@ -21,7 +21,7 @@ namespace MyMoviesAPI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("https://localhost:44369", "https://MainHomePC:44369", "http://localhost:5003", "https://localhost:5004", "http://MainHomePC:5003", "https://MainHomePC:5004");
+                    //webBuilder.UseUrls("https://localhost:44369", "https://MainHomePC:44369", "http://localhost:5003", "https://localhost:5004", "http://MainHomePC:5003", "https://MainHomePC:5004");
                 });
     }
 }
